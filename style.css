@@ -1,74 +1,90 @@
-body{
+/* === 全面滿版 + 不可滑動設定 === */
+html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important; /* 禁止頁面滑動 */
+    touch-action: none;  /* 禁止滑動、縮放的手勢行為 */
+    overscroll-behavior: none; /* 控制滾動反彈出現的閃爍or不自然的效果 */
     font-family: "Tektur", sans-serif;
-    font-optical-sizing: auto;
+    font-optical-sizing: auto; /* 根據字型大小自動選擇最佳字型 */
     font-weight: bold;
     font-style: normal;
-    font-variation-settings:
-    "wdth" 100;
+    font-variation-settings: "wdth" 100; /* 調整字型變體寬度、重量 */
     letter-spacing: 5px;
+    box-sizing: border-box;
 }
-.card-box{
+
+/* === 主要包裝容器 === */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: env(safe-area-inset-top, 1rem) env(safe-area-inset-right, 1rem) env(safe-area-inset-bottom, 1rem) env(safe-area-inset-left, 1rem);
+}
+
+/* === 卡片容器 + 響應式縮放 === */
+.card-box {
     position: relative;
-    perspective: 1000px;
+    perspective: 1000px; /* 3D轉換的視角深度，數值越小，立體感越強 */
     width: 22%;
-    padding-bottom: 22%;
-    height: 100px;
+    padding-bottom: 22%; /* 保持方形 */
+    height: auto;
     margin: 1%;
     cursor: pointer;
 }
 
-#game-board{
+/* === 遊戲區塊排版調整 === */
+#game-board {
     width: 100%;
     max-width: 480px;
     margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
-#startBtn{
-    font-weight: bold;
-    letter-spacing: 10px;
-    transition: transform 0.2s ease;
-}
-
-#startBtn:hover{
-    transform: scale(1.3);
-}
-
-.card-inner{
+/* === 卡片內部動畫 === */
+.card-inner {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 0; bottom: 0; left: 0; right: 0;
     width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
+    transform-style: preserve-3d; /* 子元素的3D變換 */
     transition: transform 0.5s;
 }
 
-.card-front, .card-back{
+/* === 正面與背面樣式 === */
+.card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    line-height: 100px;
-    font-size: clamp(1rem,5vw,2rem);
+    line-height: 100%;
+    font-size: clamp(1rem, 5vw, 2rem); /* clamp()允許你設置一個動態範圍，包含最小、首選和最大值 */
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 10px;
     backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.card-back{
+.card-back {
     transform: rotateY(180deg);
 }
 
-.card-box.flipped .card-inner{
+.card-box.flipped .card-inner {
     transform: rotateY(180deg);
 }
 
-#pause-overlay{
+/* === 暫停畫面 === */
+#pause-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
@@ -78,7 +94,7 @@ body{
     z-index: 9999;
 }
 
-.pause-text{
+.pause-text {
     font-size: 3rem;
     color: white;
     font-weight: bold;
@@ -86,28 +102,40 @@ body{
     animation: pulse 1s infinite;
 }
 
+/* pulse脈動效果 */
 @keyframes pulse {
-    0%{transform: scale(1);opacity: 1;}
-    50%{transform: scale(1.1);opacity: 0.7;}
-    100%{transform: scale(1);opacity: 1;}
+    0%     { transform: scale(1); opacity: 1; }
+    50%    { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
-#pauseBtn{
-    position: relative;
-    z-index: 10000;
-    font-weight: bold;font-weight: bold;
+/* === 按鈕設定 === */
+#startBtn, #pauseBtn, #homeBtn {
+    font-weight: bold;
     letter-spacing: 5px;
     transition: transform 0.2s ease;
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    margin: 0.5rem;
+    max-width: 90vw;
 }
 
-#pauseBtn:hover{
+#startBtn:hover, #pauseBtn:hover, #homeBtn:hover {
     transform: scale(1.1);
 }
 
-#homeBtn{
-    transition: transform 0.2s ease;
-}
+/* === 響應式卡片尺寸微調 === */
+@media (max-width: 400px) {
+    .card-box {
+        width: 28%;
+        padding-bottom: 28%;
+    }
 
-#homeBtn:hover{
-    transform: scale(1.1);
+    .pause-text {
+        font-size: 2rem;
+    }
+
+    #startBtn, #pauseBtn, #homeBtn {
+        font-size: 0.9rem;
+    }
 }
