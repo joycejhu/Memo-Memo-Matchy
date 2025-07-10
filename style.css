@@ -124,6 +124,16 @@ body {
     transform: scale(1.1);
 }
 
+#pauseBtn{
+    position: relative;
+    z-index: 10001;
+}
+
+#pause-overplay{
+    position: absolute;
+    z-index: 9999;
+}
+
 /* === 響應式卡片尺寸微調 === */
 @media (max-width: 400px) {
     .card-box {
